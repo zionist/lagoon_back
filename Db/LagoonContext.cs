@@ -1,11 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 
 namespace lagoon_back
 {
-    public partial class lagoonContext : DbContext 
+    public partial class LagoonContext : IdentityDbContext
     {
 
         public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
@@ -17,7 +18,7 @@ namespace lagoon_back
         //private ILoggerFactory factory;
         //private ILogger logger;
 
-        public lagoonContext(DbContextOptions<lagoonContext> options) :base(options) {
+        public LagoonContext(DbContextOptions<LagoonContext> options) :base(options) {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,9 +37,9 @@ namespace lagoon_back
        //     this.logger = logger;
        // }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ApplicationUser>(entity =>
             {
                 entity.ToTable("application_user");

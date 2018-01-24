@@ -14,9 +14,9 @@ namespace lagoon_back.Controllers
 
     //   private readonly ILoggerFactory loggerFactory;
      //  private readonly ILogger logger;
-       private lagoonContext lagoonContext;
+       private LagoonContext lagoonContext;
 
-        public ValuesController(lagoonContext lagoonContext) {
+        public ValuesController(LagoonContext lagoonContext) {
             this.lagoonContext = lagoonContext;
         }
 

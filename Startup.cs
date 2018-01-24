@@ -29,14 +29,14 @@ namespace lagoon_back
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<lagoonContext>(options => {
+            services.AddDbContext<LagoonContext>(options => {
                 options.EnableSensitiveDataLogging(true);
                 
             });
 
              // ===== Add Identity ========
             services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<lagoonContext>()
+                .AddEntityFrameworkStores<LagoonContext>()
                 .AddDefaultTokenProviders();
 
           // ===== Add Jwt Authentication ========
@@ -66,7 +66,7 @@ namespace lagoon_back
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, lagoonContext lagoonContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -75,6 +75,7 @@ namespace lagoon_back
 
          // ===== Use Authentication ======
             app.UseAuthentication();
+            app.UseIdentity();
             app.UseMvc();
 
             // ===== Create tables ======
