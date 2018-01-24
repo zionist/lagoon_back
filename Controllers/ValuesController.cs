@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,6 +23,7 @@ namespace lagoon_back.Controllers
 
         // GET api/values
         [HttpGet]
+         [Authorize]
         public List<ItemCategory> Get()
         {
              using (var db = this.lagoonContext)
@@ -45,6 +47,7 @@ namespace lagoon_back.Controllers
 
         // POST api/values
         [HttpPost]
+       
         public List<ItemCategory> Post([FromBody]string value)
         {
             using (var db = this.lagoonContext)

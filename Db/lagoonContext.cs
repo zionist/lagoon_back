@@ -25,7 +25,7 @@ namespace lagoon_back
             //if (!optionsBuilder.IsConfigured)
             //{
 // #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql(@"Host=localhost;Database=lagoon;Username=lagoon;Password=lagoon");
+                optionsBuilder.UseNpgsql(@"Host=127.0.0.1;Database=lagoon;Username=lagoon;Password=lagoon;Port=5432");
                 //optionsBuilder.UseLoggerFactory(this.factory);
             //}
         }
