@@ -14,13 +14,13 @@ using Microsoft.IdentityModel.Tokens;
 namespace lagoon_back.Controllers
 {
     [Route("[controller]/[action]")]
-    public class AccountController : Controller
+    public class AdminController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
 
-        public AccountController(
+        public AdminController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration
@@ -39,7 +39,9 @@ namespace lagoon_back.Controllers
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                return await GenerateJwtToken(model.Email, appUser);
+                var token = await GenerateJwtToken(model.Email, appUser);
+                this.HttpContext.Response.Headers.Add("Authorization",  $"Bearer {token as string}");
+                return "";
             }
             
             throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
@@ -60,8 +62,8 @@ namespace lagoon_back.Controllers
                 await _signInManager.SignInAsync(user, false);
                 return await GenerateJwtToken(model.Email, user);
             }
-            
-            throw new ApplicationException("UNKNOWN_ERROR");
+            return result;
+            //throw new ApplicationException("UNKNOWN_ERROR");
         }
         
         private async Task<object> GenerateJwtToken(string email, IdentityUser user)

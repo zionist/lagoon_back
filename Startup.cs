@@ -75,8 +75,14 @@ namespace lagoon_back
 
          // ===== Use Authentication ======
             app.UseAuthentication();
-            app.UseIdentity();
+            // app.UseIdentity();
+            
+            // Shows UseCors with CorsPolicyBuilder.
+            app.UseCors(builder =>
+            builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders("Authorization"));
             app.UseMvc();
+            // TODO: enable CORS
+            //builder.WithOrigins("http://localhost").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             // ===== Create tables ======
             // lagoonContext.Database.EnsureCreated();

@@ -8,22 +8,23 @@ using Microsoft.Extensions.Logging;
 
 namespace lagoon_back.Controllers
 {
-    [Route("api/[controller]")]
-    public class ValuesController : Controller
+    // /admin/api/item_categories
+    [Route("admin/api/[controller]")]
+    public class Item_categoriesController : Controller
     {
 
     //   private readonly ILoggerFactory loggerFactory;
      //  private readonly ILogger logger;
        private LagoonContext lagoonContext;
 
-        public ValuesController(LagoonContext lagoonContext) {
+        public Item_categoriesController(LagoonContext lagoonContext) {
             this.lagoonContext = lagoonContext;
         }
 
 
-        // GET api/values
+        // GET admin/api/item_Categories
         [HttpGet]
-         [Authorize]
+        [Authorize]
         public List<ItemCategory> Get()
         {
              using (var db = this.lagoonContext)
