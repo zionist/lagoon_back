@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace lagoon_back
 {
-    public partial class LagoonContext : IdentityDbContext
+    public partial class AppDbContext : DbContext
     {
 
         public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
@@ -15,30 +15,29 @@ namespace lagoon_back
         public virtual DbSet<Item> Item { get; set; }
         public virtual DbSet<ItemCategory> ItemCategory { get; set; }
 
-        //private ILoggerFactory factory;
-        //private ILogger logger;
-
-        public LagoonContext(DbContextOptions<LagoonContext> options) :base(options) {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //if (!optionsBuilder.IsConfigured)
             //{
-// #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql(@"Host=127.0.0.1;Database=lagoon;Username=lagoon;Password=lagoon;Port=5432");
-                //optionsBuilder.UseLoggerFactory(this.factory);
+            // #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            optionsBuilder.UseNpgsql(@"Host=127.0.0.1;Database=lagoon;Username=lagoon;Password=lagoon;Port=5432");
+            //optionsBuilder.UseLoggerFactory(this.factory);
             //}
         }
 
         // public lagoonContext(ILoggerFactory factory, ILogger logger)
-       // {
-       //     this.factory = factory;
-       //     this.logger = logger;
-       // }
+        // {
+        //     this.factory = factory;
+        //     this.logger = logger;
+        // }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+             modelBuilder.HasDefaultSchema("app");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ApplicationUser>(entity =>
             {

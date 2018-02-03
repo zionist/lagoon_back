@@ -3,28 +3,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace lagoon_back.Migrations
+namespace lagoon_back.Migrations.CustomIdentityDb
 {
-    public partial class Initial : Migration
+    public partial class InitialAuth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "application_user",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    password = table.Column<string>(nullable: false),
-                    username = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_application_user", x => x.id);
-                });
+            migrationBuilder.EnsureSchema(
+                name: "auth");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
+                schema: "auth",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -39,6 +29,7 @@ namespace lagoon_back.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
+                schema: "auth",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -63,61 +54,8 @@ namespace lagoon_back.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "flyway_schema_history",
-                columns: table => new
-                {
-                    installed_rank = table.Column<int>(nullable: false),
-                    checksum = table.Column<int>(nullable: true),
-                    description = table.Column<string>(nullable: false),
-                    execution_time = table.Column<int>(nullable: false),
-                    installed_by = table.Column<string>(nullable: false),
-                    installed_on = table.Column<DateTime>(nullable: false, defaultValueSql: "now()"),
-                    script = table.Column<string>(nullable: false),
-                    success = table.Column<bool>(nullable: false),
-                    type = table.Column<string>(nullable: false),
-                    version = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_flyway_schema_history", x => x.installed_rank);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "item_category",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    image_path = table.Column<string>(nullable: false),
-                    name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_item_category", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "application_user_role",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    name = table.Column<string>(nullable: false),
-                    userid = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_application_user_role", x => x.id);
-                    table.ForeignKey(
-                        name: "application_user_role_userid_fkey",
-                        column: x => x.userid,
-                        principalTable: "application_user",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
+                schema: "auth",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -132,6 +70,7 @@ namespace lagoon_back.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "auth",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -139,6 +78,7 @@ namespace lagoon_back.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
+                schema: "auth",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -153,6 +93,7 @@ namespace lagoon_back.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "auth",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -160,6 +101,7 @@ namespace lagoon_back.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
+                schema: "auth",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(nullable: false),
@@ -173,6 +115,7 @@ namespace lagoon_back.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "auth",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -180,6 +123,7 @@ namespace lagoon_back.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
+                schema: "auth",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -191,12 +135,14 @@ namespace lagoon_back.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "auth",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "auth",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -204,6 +150,7 @@ namespace lagoon_back.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
+                schema: "auth",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -217,160 +164,86 @@ namespace lagoon_back.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "auth",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "item",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    category_id = table.Column<int>(nullable: false),
-                    image_path = table.Column<string>(nullable: false),
-                    name = table.Column<string>(nullable: false),
-                    price = table.Column<int>(nullable: false),
-                    specification = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_item", x => x.id);
-                    table.ForeignKey(
-                        name: "item_category_id_fkey",
-                        column: x => x.category_id,
-                        principalTable: "item_category",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "application_user_username_key",
-                table: "application_user",
-                column: "username",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "application_user_role_name_key",
-                table: "application_user_role",
-                column: "name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_application_user_role_userid",
-                table: "application_user_role",
-                column: "userid");
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
+                schema: "auth",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
+                schema: "auth",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
+                schema: "auth",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
+                schema: "auth",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
+                schema: "auth",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
+                schema: "auth",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
+                schema: "auth",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "flyway_schema_history_s_idx",
-                table: "flyway_schema_history",
-                column: "success");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_item_category_id",
-                table: "item",
-                column: "category_id");
-
-            migrationBuilder.CreateIndex(
-                name: "item_image_path_key",
-                table: "item",
-                column: "image_path",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "item_name_key",
-                table: "item",
-                column: "name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "item_category_image_path_key",
-                table: "item_category",
-                column: "image_path",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "item_category_name_key",
-                table: "item_category",
-                column: "name",
                 unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "application_user_role");
+                name: "AspNetRoleClaims",
+                schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                name: "AspNetUserClaims",
+                schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                name: "AspNetUserLogins",
+                schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+                name: "AspNetUserRoles",
+                schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
+                name: "AspNetUserTokens",
+                schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                name: "AspNetRoles",
+                schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "flyway_schema_history");
-
-            migrationBuilder.DropTable(
-                name: "item");
-
-            migrationBuilder.DropTable(
-                name: "application_user");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "item_category");
+                name: "AspNetUsers",
+                schema: "auth");
         }
     }
 }

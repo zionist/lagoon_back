@@ -29,14 +29,16 @@ namespace lagoon_back
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<LagoonContext>(options => {
-                options.EnableSensitiveDataLogging(true);
-                
+            services.AddDbContext<AppDbContext>(options => {
+                options.EnableSensitiveDataLogging(true);                
+            });
+            services.AddDbContext<CustomIdentityDbContext>(options => {
+                options.EnableSensitiveDataLogging(true);                
             });
 
              // ===== Add Identity ========
             services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<LagoonContext>()
+                .AddEntityFrameworkStores<CustomIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
           // ===== Add Jwt Authentication ========

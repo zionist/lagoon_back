@@ -8,176 +8,19 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace lagoon_back.Migrations
+namespace lagoon_back.Migrations.CustomIdentityDb
 {
-    [DbContext(typeof(LagoonContext))]
-    partial class LagoonContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CustomIdentityDbContext))]
+    [Migration("20180203121732_InitialAuth")]
+    partial class InitialAuth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("auth")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
-
-            modelBuilder.Entity("lagoon_back.ApplicationUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnName("password");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnName("username");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Username")
-                        .IsUnique()
-                        .HasName("application_user_username_key");
-
-                    b.ToTable("application_user");
-                });
-
-            modelBuilder.Entity("lagoon_back.ApplicationUserRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
-
-                    b.Property<int>("Userid")
-                        .HasColumnName("userid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("application_user_role_name_key");
-
-                    b.HasIndex("Userid");
-
-                    b.ToTable("application_user_role");
-                });
-
-            modelBuilder.Entity("lagoon_back.FlywaySchemaHistory", b =>
-                {
-                    b.Property<int>("InstalledRank")
-                        .HasColumnName("installed_rank");
-
-                    b.Property<int?>("Checksum")
-                        .HasColumnName("checksum");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnName("description");
-
-                    b.Property<int>("ExecutionTime")
-                        .HasColumnName("execution_time");
-
-                    b.Property<string>("InstalledBy")
-                        .IsRequired()
-                        .HasColumnName("installed_by");
-
-                    b.Property<DateTime>("InstalledOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("installed_on")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("Script")
-                        .IsRequired()
-                        .HasColumnName("script");
-
-                    b.Property<bool>("Success")
-                        .HasColumnName("success");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnName("type");
-
-                    b.Property<string>("Version")
-                        .HasColumnName("version");
-
-                    b.HasKey("InstalledRank");
-
-                    b.HasIndex("Success")
-                        .HasName("flyway_schema_history_s_idx");
-
-                    b.ToTable("flyway_schema_history");
-                });
-
-            modelBuilder.Entity("lagoon_back.Item", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnName("category_id");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnName("image_path");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
-
-                    b.Property<int>("Price")
-                        .HasColumnName("price");
-
-                    b.Property<string>("Specification")
-                        .IsRequired()
-                        .HasColumnName("specification");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ImagePath")
-                        .IsUnique()
-                        .HasName("item_image_path_key");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("item_name_key");
-
-                    b.ToTable("item");
-                });
-
-            modelBuilder.Entity("lagoon_back.ItemCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnName("image_path");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImagePath")
-                        .IsUnique()
-                        .HasName("item_category_image_path_key");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasName("item_category_name_key");
-
-                    b.ToTable("item_category");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -334,23 +177,6 @@ namespace lagoon_back.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("lagoon_back.ApplicationUserRole", b =>
-                {
-                    b.HasOne("lagoon_back.ApplicationUser", "User")
-                        .WithMany("ApplicationUserRole")
-                        .HasForeignKey("Userid")
-                        .HasConstraintName("application_user_role_userid_fkey")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("lagoon_back.Item", b =>
-                {
-                    b.HasOne("lagoon_back.ItemCategory", "Category")
-                        .WithMany("Item")
-                        .HasForeignKey("CategoryId")
-                        .HasConstraintName("item_category_id_fkey");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
