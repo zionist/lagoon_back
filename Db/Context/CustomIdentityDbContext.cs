@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 
-namespace lagoon_back
+namespace lagoon_back.Context
 {
     public partial class CustomIdentityDbContext : IdentityDbContext
     {
