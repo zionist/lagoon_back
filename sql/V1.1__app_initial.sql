@@ -1,17 +1,17 @@
 CREATE SCHEMA app;
 
 CREATE TABLE app.item_category (
-  id serial  PRIMARY KEY,
+  id bigserial  PRIMARY KEY,
   name varchar(2048) NOT NULL UNIQUE,
   image_path varchar(4096) NOT NULL UNIQUE
 );
 
 CREATE TABLE app.item (
-  id serial PRIMARY KEY,
+  id bigserial PRIMARY KEY,
   name varchar(2048) NOT NULL UNIQUE ,
   specification text NOT NULL ,
   price int NOT NULL ,
-  category_id int REFERENCES app.item_category(id) ON DELETE CASCADE NOT NULL,
+  category_id bigint REFERENCES app.item_category(id) ON DELETE CASCADE NOT NULL,
   image_path varchar(4096) NOT NULL UNIQUE
 );
 

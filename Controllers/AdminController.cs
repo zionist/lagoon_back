@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using lagoon_back.DAL.App;
 
 namespace lagoon_back.Controllers
 {
+    
     [Route("[controller]/[action]")]
     public class AdminController : Controller
     {
@@ -110,4 +112,5 @@ namespace lagoon_back.Controllers
             public string Password { get; set; }
         }
     }
+    
 }

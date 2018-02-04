@@ -13,7 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using lagoon_back.Context;
+using lagoon_back.DAL.Auth;
+using lagoon_back.DAL.App;
+
 
 namespace lagoon_back
 {
@@ -30,9 +32,7 @@ namespace lagoon_back
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<AppDbContext>(options => {
-                options.EnableSensitiveDataLogging(true);                
-            });
+            services.AddDbContext<AppDbContext>();
             services.AddDbContext<CustomIdentityDbContext>(options => {
                 options.EnableSensitiveDataLogging(true);                
             });

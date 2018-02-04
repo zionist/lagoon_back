@@ -1,6 +1,7 @@
 CREATE SCHEMA auth;
 
 CREATE SEQUENCE auth."AspNetRoleClaims_Id_seq"
+    AS bigint
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -8,6 +9,7 @@ CREATE SEQUENCE auth."AspNetRoleClaims_Id_seq"
     CACHE 1;
 
 CREATE SEQUENCE auth."AspNetUserClaims_Id_seq"
+    AS bigint
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -57,7 +59,7 @@ CREATE UNIQUE INDEX "UserNameIndex"
 
 CREATE TABLE auth."AspNetRoleClaims"
 (
-    "Id" integer NOT NULL DEFAULT nextval('auth."AspNetRoleClaims_Id_seq"'::regclass),
+    "Id" bigint NOT NULL DEFAULT nextval('auth."AspNetRoleClaims_Id_seq"'::regclass),
     "ClaimType" text COLLATE pg_catalog."default",
     "ClaimValue" text COLLATE pg_catalog."default",
     "RoleId" text COLLATE pg_catalog."default" NOT NULL,
