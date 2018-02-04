@@ -1,0 +1,6 @@
+{
+    "Evolve.ConnectionString": "Server=127.0.0.1;Database=lagoon;User Id=lagoon;Password=lagoon;",
+    "Evolve.Driver": "postgresql",
+    "Evolve.Locations": "sql",
+    "Evolve.Command": "migrate"
+  }
