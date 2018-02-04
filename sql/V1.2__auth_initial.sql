@@ -16,20 +16,6 @@ CREATE SEQUENCE auth."AspNetUserClaims_Id_seq"
     MAXVALUE 2147483647
     CACHE 1;
 
---
-CREATE TABLE auth."AspNetRoles"
-(
-    "Id" text COLLATE pg_catalog."default" NOT NULL,
-    "ConcurrencyStamp" text COLLATE pg_catalog."default",
-    "Name" character varying(256) COLLATE pg_catalog."default",
-    "NormalizedName" character varying(256) COLLATE pg_catalog."default",
-    CONSTRAINT "PK_AspNetRoles" PRIMARY KEY ("Id")
-);
- 
-CREATE UNIQUE INDEX "IX_AspNetRoles_NormalizedName"
-    ON auth."AspNetRoles" ("NormalizedName");
-
---
 CREATE TABLE auth."AspNetUsers"
 (
     "Id" text COLLATE pg_catalog."default" NOT NULL,
@@ -57,6 +43,39 @@ CREATE UNIQUE INDEX "UserNameIndex"
     ON auth."AspNetUsers" ("NormalizedUserName");
 
 
+--
+CREATE TABLE auth."AspNetUserClaims"
+(
+    "Id" integer NOT NULL DEFAULT nextval('auth."AspNetUserClaims_Id_seq"'::regclass),
+    "ClaimType" text COLLATE pg_catalog."default",
+    "ClaimValue" text COLLATE pg_catalog."default",
+    "UserId" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "PK_AspNetUserClaims" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_AspNetUserClaims_AspNetUsers_UserId" FOREIGN KEY ("UserId")
+        REFERENCES auth."AspNetUsers" ("Id") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+);
+
+CREATE INDEX "IX_AspNetUserClaims_UserId"
+    ON auth."AspNetUserClaims" ("UserId");
+
+--
+CREATE TABLE auth."AspNetRoles"
+(
+    "Id" text COLLATE pg_catalog."default" NOT NULL,
+    "ConcurrencyStamp" text COLLATE pg_catalog."default",
+    "Name" character varying(256) COLLATE pg_catalog."default",
+    "NormalizedName" character varying(256) COLLATE pg_catalog."default",
+    CONSTRAINT "PK_AspNetRoles" PRIMARY KEY ("Id")
+);
+ 
+CREATE UNIQUE INDEX "IX_AspNetRoles_NormalizedName"
+    ON auth."AspNetRoles" ("NormalizedName");
+
+
+
+--
 CREATE TABLE auth."AspNetRoleClaims"
 (
     "Id" bigint NOT NULL DEFAULT nextval('auth."AspNetRoleClaims_Id_seq"'::regclass),
@@ -75,10 +94,6 @@ CREATE INDEX "IX_AspNetRoleClaims_RoleId"
   
 
 --
--- Table: auth."AspNetUserLogins"
-
--- DROP TABLE auth."AspNetUserLogins";
-
 CREATE TABLE auth."AspNetUserLogins"
 (
     "LoginProvider" text COLLATE pg_catalog."default" NOT NULL,
@@ -95,7 +110,7 @@ CREATE TABLE auth."AspNetUserLogins"
 CREATE INDEX "IX_AspNetUserLogins_UserId"
     ON auth."AspNetUserLogins" ("UserId");
 
-
+--
 CREATE TABLE auth."AspNetUserRoles"
 (
     "UserId" text COLLATE pg_catalog."default" NOT NULL,
